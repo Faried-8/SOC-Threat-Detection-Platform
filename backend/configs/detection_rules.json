@@ -1,0 +1,117 @@
+{
+  "_comment": "Network Traffic Analysis & Threat Detection System — Detection Rules Config",
+  "_version": "2.0.0",
+
+  "port_scan": {
+    "enabled": true,
+    "unique_port_threshold": 15,
+    "time_window_seconds": 60,
+    "syn_threshold": 20,
+    "severity_syn": "HIGH",
+    "severity_connect": "MEDIUM",
+    "mitre": "T1046",
+    "description": "Detects systematic probing of ports on target systems"
+  },
+
+  "dns_anomaly": {
+    "enabled": true,
+    "query_volume_threshold": 50,
+    "long_domain_chars": 50,
+    "entropy_threshold": 3.5,
+    "nxdomain_threshold": 20,
+    "tunnel_min_matches": 5,
+    "severity_volume": "MEDIUM",
+    "severity_tunnel": "HIGH",
+    "mitre": "T1071.004"
+  },
+
+  "http_anomaly": {
+    "enabled": true,
+    "scan_uri_threshold": 30,
+    "error_rate_threshold": 20,
+    "suspicious_user_agents": [
+      "sqlmap", "nikto", "nmap", "masscan", "hydra", "medusa",
+      "zgrab", "nuclei", "dirbuster", "gobuster", "wfuzz",
+      "havoc", "cobalt", "meterpreter", "metasploit"
+    ],
+    "attack_uri_patterns": [
+      "/admin", "/wp-login", "/phpmyadmin", "/.env",
+      "union+select", "or+1=1", "1=1", "../", "%2e%2e",
+      "<script>", "eval(", "base64_decode", "/etc/passwd"
+    ],
+    "severity_malicious_ua": "HIGH",
+    "severity_scan": "HIGH",
+    "mitre": "T1190"
+  },
+
+  "beaconing": {
+    "enabled": true,
+    "min_connections": 10,
+    "time_window_seconds": 300,
+    "regularity_threshold": 0.8,
+    "severity_high": "CRITICAL",
+    "severity_medium": "HIGH",
+    "mitre": "T1071.001"
+  },
+
+  "brute_force": {
+    "enabled": true,
+    "attempt_threshold": 10,
+    "time_window_seconds": 60,
+    "monitored_ports": [22, 23, 21, 25, 110, 143, 3389, 5900, 1433, 3306, 5432],
+    "severity": "HIGH",
+    "mitre": "T1110"
+  },
+
+  "icmp": {
+    "enabled": true,
+    "flood_threshold": 100,
+    "sweep_unique_dst_threshold": 10,
+    "severity": "MEDIUM",
+    "mitre_flood": "T1499",
+    "mitre_sweep": "T1018"
+  },
+
+  "suspicious_ports": {
+    "enabled": true,
+    "port_list": [4444, 4445, 1234, 31337, 6666, 6667, 1337, 8888, 9999, 12345, 54321],
+    "severity": "MEDIUM",
+    "mitre": "T1571"
+  },
+
+  "exfiltration": {
+    "enabled": true,
+    "bytes_threshold": 5000000,
+    "dns_bytes_threshold": 500,
+    "severity": "HIGH",
+    "mitre": "T1048"
+  },
+
+  "severity_levels": {
+    "CRITICAL": {
+      "description": "Confirmed active threat requiring immediate isolation and response",
+      "sla_minutes": 15,
+      "escalation": "Incident Response Team"
+    },
+    "HIGH": {
+      "description": "High-confidence malicious activity with significant risk",
+      "sla_minutes": 60,
+      "escalation": "Senior SOC Analyst"
+    },
+    "MEDIUM": {
+      "description": "Suspicious activity requiring investigation",
+      "sla_minutes": 480,
+      "escalation": "SOC Analyst"
+    },
+    "LOW": {
+      "description": "Low-risk anomaly, likely benign but worth noting",
+      "sla_minutes": 1440,
+      "escalation": "Tier 1 Analyst"
+    },
+    "INFORMATIONAL": {
+      "description": "Informational event for baseline documentation",
+      "sla_minutes": 4320,
+      "escalation": "None required"
+    }
+  }
+}
