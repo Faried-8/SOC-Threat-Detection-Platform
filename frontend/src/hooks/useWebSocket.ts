@@ -19,10 +19,18 @@ function connectGlobal() {
   if (globalWS && (globalWS.readyState === WebSocket.OPEN || globalWS.readyState === WebSocket.CONNECTING)) return
   if (reconnectTimer) { clearTimeout(reconnectTimer); reconnectTimer = null }
 
-  const proto = window.location.protocol === 'https:' ? 'wss' : 'ws'
-  const host = window.location.host
+  // Use VITE_API_URL (Railway backend) for WebSocket, fall back to window.location for local dev
+  const apiUrl = import.meta.env.VITE_API_URL ?? ''
+  let wsBase: string
+  if (apiUrl) {
+    // Convert https://... → wss://... or http://... → ws://...
+    wsBase = apiUrl.replace(/^https:\/\//, 'wss://').replace(/^http:\/\//, 'ws://')
+  } else {
+    const proto = window.location.protocol === 'https:' ? 'wss' : 'ws'
+    wsBase = `${proto}://${window.location.host}`
+  }
   const token = localStorage.getItem('soc_token') ?? ''
-  const url = `${proto}://${host}/ws${token ? `?token=${token}` : ''}`
+  const url = `${wsBase}/ws${token ? `?token=${token}` : ''}`
 
   notifyStatus('connecting')
   const socket = new WebSocket(url)
