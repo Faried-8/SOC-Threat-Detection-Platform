@@ -76,4 +76,9 @@ export interface WSMessage {
   message?: string;
   is_subtechnique?: boolean;
   platforms?: string[];
+  // Simulation fields
+  total_alerts?: number;
+  current_alert?: string;
+  total_alerts_generated?: number;
+  [key: string]: unknown;
 }

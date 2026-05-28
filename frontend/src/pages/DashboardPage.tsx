@@ -61,8 +61,8 @@ export function DashboardPage() {
         },
       } : prev)
     }
-    if (msg.type === 'simulation_start') setSimMsg(`Simulation started — ${(msg as Record<string,unknown>).total_alerts as number} alerts incoming`)
-    if (msg.type === 'simulation_progress') setSimMsg(`Progress: ${(msg as Record<string,unknown>).progress as number}% — ${(msg as Record<string,unknown>).current_alert as string}`)
+    if (msg.type === 'simulation_start') setSimMsg(`Simulation started — ${msg.total_alerts} alerts incoming`)
+    if (msg.type === 'simulation_progress') setSimMsg(`Progress: ${msg.progress}% — ${msg.current_alert}`)
     if (msg.type === 'simulation_complete') {
       setSimMsg('Simulation complete ✓')
       setSimRunning(false)

@@ -323,7 +323,7 @@ export function MitrePage() {
               {selected.description || 'No description available.'}
             </div>
 
-            {(techDetail?.platforms as string[] | undefined)?.length > 0 && (
+            {((techDetail?.platforms as string[] | undefined) ?? []).length > 0 && (
               <div style={{ marginBottom: 10 }}>
                 <div style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 4 }}>Platforms</div>
                 <div>{((techDetail?.platforms ?? selected.platforms ?? []) as string[]).map(p => (
@@ -332,7 +332,7 @@ export function MitrePage() {
               </div>
             )}
 
-            {(techDetail?.alerts as unknown[] | undefined)?.length > 0 && (
+            {((techDetail?.alerts as unknown[] | undefined) ?? []).length > 0 && (
               <div style={{ marginBottom: 10 }}>
                 <div style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 6 }}>Related Alerts</div>
                 {(techDetail!.alerts as Record<string, string>[]).slice(0, 5).map(a => (

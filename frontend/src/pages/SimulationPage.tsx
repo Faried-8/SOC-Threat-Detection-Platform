@@ -30,19 +30,16 @@ export function SimulationPage() {
       setEvents(prev => [a, ...prev].slice(0, 100))
     }
     if (msg.type === 'simulation_start') {
-      const m = msg as Record<string, unknown>
-      setTotalExpected(m.total_alerts as number ?? 0)
-      setStatusMsg(`Simulation started — ${m.total_alerts} alerts incoming`)
+      setTotalExpected(msg.total_alerts ?? 0)
+      setStatusMsg(`Simulation started — ${msg.total_alerts} alerts incoming`)
     }
     if (msg.type === 'simulation_progress') {
-      const m = msg as Record<string, unknown>
-      setProgress(m.progress as number ?? 0)
-      setStatusMsg(`Detecting: ${m.current_alert as string}`)
+      setProgress(msg.progress ?? 0)
+      setStatusMsg(`Detecting: ${msg.current_alert}`)
     }
     if (msg.type === 'simulation_complete') {
-      const m = msg as Record<string, unknown>
       setProgress(100)
-      setStatusMsg(`✓ Complete — ${m.total_alerts_generated as number} alerts generated`)
+      setStatusMsg(`✓ Complete — ${msg.total_alerts_generated} alerts generated`)
       setRunning(false)
     }
   }, [])

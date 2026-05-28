@@ -211,7 +211,7 @@ export function PCAPPage() {
                 </div>
               </div>
 
-              {result.analysis_id && (
+              {result.analysis_id != null && (
                 <div className="detail-row">
                   <span className="detail-key">Session ID</span>
                   <span className="detail-val mono" style={{ fontFamily: 'var(--mono)', fontSize: 11 }}>
@@ -219,13 +219,13 @@ export function PCAPPage() {
                   </span>
                 </div>
               )}
-              {result.analyst_name && (
+              {result.analyst_name != null && (
                 <div className="detail-row">
                   <span className="detail-key">Analyst</span>
                   <span className="detail-val">{result.analyst_name as string}</span>
                 </div>
               )}
-              {result.duration_seconds && (
+              {result.duration_seconds != null && (
                 <div className="detail-row">
                   <span className="detail-key">Analysis Time</span>
                   <span className="detail-val">{(result.duration_seconds as number).toFixed(2)}s</span>
